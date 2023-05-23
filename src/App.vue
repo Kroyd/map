@@ -21,8 +21,9 @@
 </template>
 
 <script>
-import {LMap, LTileLayer, LMarker, LPopup,LPolygon} from 'vue2-leaflet';
-import L from 'leaflet'
+import {LMap, LTileLayer, LMarker, LPopup, LPolygon,} from 'vue2-leaflet';
+import L from 'leaflet';
+import 'leaflet-routing-machine';
 export default {
   components: {
     LMap,
@@ -43,7 +44,17 @@ export default {
       markerLatLng3: [40.302086, 69.614105],
       polygon: [[40.308783, 69.650615], [40.278352, 69.628042]],
       distance: null,
+
     };
+  },
+  mounted() {
+    const map = this.$ref.map.mapObject;
+    L.Routing.control({
+      waypoints: [
+    L.latLng(40.278352, 69.628042),
+    L.latLng(40.308783, 69.650615),
+   ]
+    }).addTo(map)
   },
   methods: {
     zoomUpdated (zoom) {
