@@ -48,11 +48,11 @@ export default {
     };
   },
   mounted() {
-    const map = this.$ref.map.mapObject;
+    const map = this.$refs.map.mapObject;
     L.Routing.control({
       waypoints: [
-    L.latLng(40.278352, 69.628042),
     L.latLng(40.308783, 69.650615),
+    L.latLng(40.278352, 69.628042),
    ]
     }).addTo(map)
   },
