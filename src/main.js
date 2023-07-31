@@ -3,6 +3,7 @@ import App from './App.vue'
 import 'leaflet/dist/leaflet.css';
 import './style.css'
 import L from 'leaflet'
+import router from './router'
 
 Vue.config.productionTip = false
 L.Icon.Default.mergeOptions({
@@ -11,5 +12,6 @@ L.Icon.Default.mergeOptions({
    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 new Vue({
+  router,
   render: h => h(App),
 }).$mount('#app')
