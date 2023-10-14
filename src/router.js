@@ -34,3 +34,4 @@ router.beforeEach((to, from, next) => {
     }
 })
 export default router
+//решения проблеми -https://v3.router.vuejs.org/ru/installation.html#npm
