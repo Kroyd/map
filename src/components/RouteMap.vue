@@ -4,33 +4,32 @@
      @update:zoom="zoomUpdated"
      @update:center="centerUpdated">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <l-marker :lat-lng="markerLatLng1">
+      <!-- <l-marker :lat-lng="markerLatLng1">
       <l-popup> {{ markerLatLng1 }}</l-popup>
-      </l-marker>
-      <l-marker :lat-lng="markerLatLng2">
+      </l-marker> -->
+      <!-- <l-marker :lat-lng="markerLatLng2">
       <l-popup>{{ markerLatLng2 }}</l-popup>
-      </l-marker>
-      <l-marker :lat-lng="markerLatLng3">
+      </l-marker> -->
+      <!-- <l-marker :lat-lng="markerLatLng3">
       <l-popup>{{ markerLatLng3 }}</l-popup>
-      </l-marker>
-      <l-polygon :lat-lngs="polygon"></l-polygon>
+      </l-marker> -->
+      <!-- <l-polygon :lat-lngs="polygon"></l-polygon> -->
     </l-map>
+    <button @click="getClick">Давай</button>
+    <button @click="getClick2">Отмена</button>
     <button @click="calculateDistance">Расстояние</button> <br>
     <div v-if="distance">Расстояние: {{ distance }}</div> <br>
   </div>
   </template>
   
   <script>
-  import {LMap, LTileLayer, LMarker, LPopup, LPolygon,} from 'vue2-leaflet';
+  import {LMap, LTileLayer} from 'vue2-leaflet';
   import L from 'leaflet';
   import 'leaflet-routing-machine';
   export default {
     components: {
       LMap,
       LTileLayer,
-      LMarker,
-      LPopup,
-      LPolygon,
     },
     data () {
       return {
@@ -44,19 +43,81 @@
         markerLatLng3: [40.302086, 69.614105],
         polygon: [[40.308783, 69.650615], [40.278352, 69.628042]],
         distance: null,
-  
+        routing: null,
+        home: require('@/assets/svg/home.svg'),
+        map: null
       };
     },
     mounted() {
-      const map = this.$refs.map.mapObject;
-      L.Routing.control({
+//       var thisIcon = new L.Icon({
+//     iconUrl:  require('@/assets/svg/home.svg'),
+//     iconAnchor: new L.Point(24, 24),
+// });
+//   var icon = new L.Icon({
+//     iconUrl:  require('@/assets/svg/home.svg'),
+//     iconAnchor: new L.Point(1, 1),
+// });
+      this.map = this.$refs.map.mapObject;
+      this.routing = L.Routing.control({
+        // show: false,
+        // addWaypoints: false,
+        // draggableWaypoints: false,
+        // fitSelectedRoutes: false,
         waypoints: [
       L.latLng(40.308783, 69.650615),
       L.latLng(40.278352, 69.628042),
-     ]
-      }).addTo(map)
+     ],
+    //  createMarker: function () { return null; },
+    //  createMarker: function (i, wp) {
+    //   if (i === 0) {
+    //     return null
+    //     // First marker
+    //     // return L.marker(wp.latLng, {
+    //     //   icon: thisIcon,
+    //     //   // icon: blankMarker,
+    //     // });
+    //   } else {
+    //     // Last marker
+    //     // return null
+    //     return L.marker(wp.latLng, {
+    //       icon: thisIcon,
+    //       // icon: bMarker,
+    //       // icon: require('@/assets/svg/home.svg')
+    //     });
+    //   }
+    // },
+    //  show: false,
+    // addWaypoints: false,
+    // draggableWaypoints: false,
+    // fitSelectedRoutes: false,
+    lineOptions: {
+      styles: [{ color: "blue", opacity: 0.7, weight: 3 }],
     },
+    // show: this.getShow,
+    // hide: function() {
+		// 	L.DomUtil.addClass(this._container, 'leaflet-routing-container-hide');
+		// },
+      }).addTo(this.map)
+    },
+    
     methods: {
+      getClick() {
+        this.routing = L.Routing.control({
+          waypoints: [
+      L.latLng(40.308783, 69.650615),
+      L.latLng(40.278352, 69.628042),
+     ],
+    //  lineOptions: {
+    //   styles: [{ color: "blue", opacity: 0.7, weight: 3 }],
+    // },
+  }).addTo(this.map)
+    },
+      getClick2() {
+        this.routing.spliceWaypoints(1, 1);
+      },
+      // getShow() {
+      //   L.DomUtil.removeClass(this._container, 'leaflet-routing-container-hide');
+      // },
       zoomUpdated (zoom) {
         this.zoom = zoom
       },
@@ -74,7 +135,11 @@
     },
   }
   </script>
-
+<style>
+.leaflet-routing-container-hide {
+  display: none;
+}
+</style>
 
 <!-- <template>
   <div>

@@ -4,7 +4,6 @@ import Map from '@/components/RouteMap.vue'
 import loginMap from "@/auth/loginMap.vue"
 import { isLoggedIn } from './auth';
 
-
 Vue.use(Router)
 
 const router = new Router({
